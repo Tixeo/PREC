@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Pois Rayures et Caro</title>
+    <link rel="stylesheet" href="inscription.html">
+</head>
+<body>
+    <div class="container">
+        <h1>Inscription</h1>
+        <form id="inscriptionForm">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required>
+            <span id="nomError" class="error"></span>
+
+            <label for="email">Adresse email</label>
+            <input type="email" id="email" name="email" required>
+            <span id="emailError" class="error"></span>
+
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required>
+            <span id="passwordError" class="error"></span>
+
+            <button type="submit">S'inscrire</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('inscriptionForm');
+        const nomInput = document.getElementById('nom');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Validation du nom
+            if (nomInput.value.trim().length < 2) {
+                document.getElementById('nomError').textContent = 'Le nom doit contenir au moins 2 caractères.';
+                isValid = false;
+            } else {
+                document.getElementById('nomError').textContent = '';
+            }
+
+            // Validation de l'email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                document.getElementById('emailError').textContent = 'Veuillez entrer une adresse email valide.';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            // Validation du mot de passe
+            if (passwordInput.value.length < 8) {
+                document.getElementById('passwordError').textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').textContent = '';
+            }
+
+            if (isValid) {
+                // Ici, vous enverriez normalement les données à votre serveur
+                console.log('Formulaire valide, données:', {
+                    nom: nomInput.value,
+                    email: emailInput.value,
+                    password: passwordInput.value
+                });
+                alert('Inscription réussie !');
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>

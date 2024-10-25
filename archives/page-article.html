@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nom de l'Article - Pois Rayures et Caro</title>
+    <link rel="stylesheet" href="page-article.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.jpg" alt="Logo Pois Rayures et Caro" class="logo-img">
+            <a href="index.html" class="site-title">
+                <h1>Pois Rayures et Caro</h1>
+            </a>
+        </div>
+
+        <div class="header-center">
+            <div class="search-bar">
+                <input type="search" placeholder="Rechercher...">
+                <button type="submit">🔍</button>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="fidelity-button" disabled>Fidélité</button>
+            <nav class="nav-buttons">
+                <a href="ma-liste.html" class="nav-button">Ma liste</a>
+                <a href="parametre.html" class="nav-button">Paramètres</a>
+            </nav>
+            <button class="hamburger">☰</button>
+        </div>
+    </header>
+    <main>
+        <section class="gallery">
+            <img src="/api/placeholder/500/600" alt="Image principale de l'article">
+            <div class="thumbnails">
+                <img src="/api/placeholder/100/120" alt="Miniature 1">
+                <img src="/api/placeholder/100/120" alt="Miniature 2">
+                <img src="/api/placeholder/100/120" alt="Miniature 3">
+            </div>
+        </section>
+        <section class="product-info">
+            <h2>Nom de l'Article</h2>
+            <p>Description détaillée de l'article. Ici, vous pouvez décrire les caractéristiques, les matériaux, etc.</p>
+            <div class="size-selector">
+                <h3>Tailles disponibles</h3>
+                <button>S</button>
+                <button>M</button>
+                <button>L</button>
+                <button>XL</button>
+            </div>
+            <p class="availability">Uniquement disponible en magasin</p>
+            <button class="wishlist-button">
+                <span class="star">☆</span> Ajouter à Ma liste
+            </button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="sous-logo.jpg" alt="Logo Pois Rayures et Caro">
+        </div>
+        
+        <div class="footer-address">
+            <p>Rue de Verrue, 50550 Saint-Vaast-la-Hougue, France</p>
+            <p>Saint-Vaast-la-Hougue, France</p>
+        </div>
+        
+        <div class="footer-contact">
+            <p>Contact: 02 33 20 13 45</p>
+            <div class="footer-links">
+                <a href="#">Facebook</a>
+                <a href="#">Conditions d'utilisation</a>
+                <a href="#">Terms of services</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript pour la galerie d'images
+        const mainImage = document.querySelector('.gallery > img');
+        const thumbnails = document.querySelectorAll('.thumbnails img');
+
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                mainImage.src = this.src.replace('100/120', '500/600');
+            });
+        });
+
+        // JavaScript pour la sélection de taille
+        const sizeButtons = document.querySelectorAll('.size-selector button');
+
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // JavaScript pour le bouton d'ajout à la liste d'envies
+        const wishlistButton = document.querySelector('.wishlist-button');
+        const star = wishlistButton.querySelector('.star');
+
+        wishlistButton.addEventListener('click', function() {
+            star.textContent = star.textContent === '☆' ? '★' : '☆';
+            star.style.color = star.textContent === '★' ? 'gold' : 'black';
+        });
+    </script>
+</body>
+</html>
