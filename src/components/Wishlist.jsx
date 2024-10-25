@@ -10,7 +10,6 @@ function Wishlist() {
 
     const handleDetailClick = (articleName) => {
         alert(`Redirection vers la page de détail de l'article : ${articleName}`);
-        // Redirection logic can be added here, like using React Router
     };
 
     return (

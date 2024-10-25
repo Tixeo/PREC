@@ -1,5 +1,5 @@
 import React from 'react';
-import sousLogo from '../assets/images/sous-logo.jpg';
+import sousLogo from '../../assets/images/sous-logo.jpg';
 
 function Footer() {
     return (

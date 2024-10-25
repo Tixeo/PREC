@@ -15,11 +15,28 @@ const Login = ({ closeModal }) => {
         e.preventDefault()
         if (!isSigningIn) {
             setIsSigningIn(true)
+            setErrorMessage('')
             try {
                 await doSignInWithEmailAndPassword(email, password)
                 closeModal()
             } catch (error) {
-                setErrorMessage(error.message)
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        setErrorMessage('Identifiant ou mot de passe incorrect.')
+                        break
+                    case 'auth/invalid-credential':
+                        setErrorMessage('Adresse e-mail ou mot de passe invalide.')
+                        break
+                    case 'auth/user-disabled':
+                        setErrorMessage('Ce compte a été désactivé.')
+                        break
+                    case 'auth/too-many-requests':
+                        setErrorMessage('Trop de tentatives de connexion. Veuillez réessayer plus tard.')
+                        break
+                    default:
+                        setErrorMessage('Une erreur est survenue lors de la connexion.')
+                }
                 setIsSigningIn(false)
             }
         }
@@ -29,10 +46,15 @@ const Login = ({ closeModal }) => {
         e.preventDefault()
         if (!isSigningIn) {
             setIsSigningIn(true)
+            setErrorMessage('')
             doSignInWithGoogle().then(() => {
                 closeModal()
-            }).catch(err => {
-                setErrorMessage(err.message)
+            }).catch(error => {
+                if (error.code === 'auth/popup-closed-by-user') {
+                    setErrorMessage('La fenêtre de connexion a été fermée.')
+                } else {
+                    setErrorMessage('Une erreur est survenue lors de la connexion avec Google.')
+                }
                 setIsSigningIn(false)
             })
         }
@@ -40,7 +62,12 @@ const Login = ({ closeModal }) => {
 
     return (
         <div className="container">
-            <h1 className="h1Register">Re-bonjour</h1>
+            <div className='headerRegister'>
+                <h1 className='h1Register'>Re-Bonjour</h1>
+                <button onClick={closeModal} className='closeRegister'>
+                    <MaterialSymbolsCloseRounded />
+                </button>
+            </div>
             <form onSubmit={onSubmit} className="formRegister">
                 <label className="labelRegister">Email</label>
                 <input
@@ -75,7 +102,7 @@ const Login = ({ closeModal }) => {
             </form>
             <p className="forgot-password">
                 Vous n'avez pas de compte ?  
-                 <Link to={'/register'} onClick={closeModal}> S'inscrire</Link>
+                 <Link onClick={closeModal}> S'inscrire</Link>
             </p>
             <div className='flex flex-row text-center w-full'>
                 <div className='border-b-2 mb-2.5 mr-2 w-full'></div>
@@ -108,3 +135,6 @@ const Login = ({ closeModal }) => {
 export default Login
 
 
+export function MaterialSymbolsCloseRounded(props) {
+	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275z"></path></svg>);
+}

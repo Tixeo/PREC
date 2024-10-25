@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { auth } from '../firebase/firebase';
+import { auth } from '../../firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import logo from '../assets/images/logo.jpg';
-import { doSignOut } from '../firebase/auth';
-import Register from './auth/register';
-import Login from './auth/login'; // Importer le composant Login
+import logo from '../../assets/images/logo.jpg';
+import { doSignOut } from '../../firebase/auth';
+import Register from '../auth/register';
+import Login from '../auth/login';
 
 function Header() {
     const [user, setUser] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [loginModalIsOpen, setLoginModalIsOpen] = useState(false); // Nouvel état pour le modal de connexion
-
+    const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -37,11 +36,11 @@ function Header() {
     };
 
     const openLoginModal = () => {
-        setLoginModalIsOpen(true); // Ouvrir le modal de connexion
+        setLoginModalIsOpen(true);
     };
 
     const closeLoginModal = () => {
-        setLoginModalIsOpen(false); // Fermer le modal de connexion
+        setLoginModalIsOpen(false);
     };
 
     return (
@@ -71,7 +70,7 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <button className="nav-button" onClick={openLoginModal}>Connexion</button> {/* Ouvrir le modal de connexion */}
+                            <button className="nav-button" onClick={openLoginModal}>Connexion</button>
                             <button onClick={openModal} className="nav-button">Inscription</button>
                         </>
                     )}
@@ -79,7 +78,6 @@ function Header() {
                 <button className="hamburger">☰</button>
             </div>
 
-            {/* Modal pour l'inscription */}
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -88,13 +86,12 @@ function Header() {
                 <Register closeModal={closeModal} />
             </Modal>
 
-            {/* Modal pour la connexion */}
             <Modal
                 isOpen={loginModalIsOpen}
                 onRequestClose={closeLoginModal}
                 contentLabel="Modal de connexion"
             >
-                <Login closeModal={closeLoginModal} /> {/* Passer la fonction pour fermer le modal */}
+                <Login closeModal={closeLoginModal} />
             </Modal>
         </header>
     );

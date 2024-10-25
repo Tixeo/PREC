@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import img1 from '../assets/images/1.jpg'; // Image paths
+import img1 from '../assets/images/1.jpg';
 import img2 from '../assets/images/2.jpg';
 
 function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slides = [img1, img2]; // Array of slide images
+    const slides = [img1, img2];
 
     const moveToSlide = (index) => {
         setCurrentSlide(index);
