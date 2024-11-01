@@ -1,5 +1,5 @@
 import React from 'react';
-import sousLogo from '../../assets/images/sous-logo.jpg';
+import sousLogo from '../assets/images/sous-logo.jpg';
 
 function Footer() {
     return (
@@ -16,9 +16,8 @@ function Footer() {
             <div className="footer-contact">
                 <p>Contact: 02 33 20 13 45</p>
                 <div className="footer-links">
-                    <a href="#">Facebook</a>
-                    <a href="#">Conditions d'utilisation</a>
-                    <a href="#">Terms of services</a>
+                    <a href="https://www.facebook.com/profile.php?id=100058107847441&locale=fr_FR">Facebook</a>
+                    <a href="/terms-of-service">Conditions d'utilisation</a>
                 </div>
             </div>
         </footer>

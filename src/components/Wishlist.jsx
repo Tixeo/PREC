@@ -1,34 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { db } from '../firebase/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import placeholder from '../assets/images/placeholder.png';
 
-function Wishlist() {
-    const items = [
-        { id: 1, name: 'Article 1', description: 'Description courte de l\'article 1', img: placeholder },
-        { id: 2, name: 'Article 2', description: 'Description courte de l\'article 2', img: placeholder },
-        { id: 3, name: 'Article 3', description: 'Description courte de l\'article 3', img: placeholder }
-    ];
+const Wishlist = () => {
+    const [items, setItems] = useState([]);
 
-    const handleDetailClick = (articleName) => {
-        alert(`Redirection vers la page de détail de l'article : ${articleName}`);
+    useEffect(() => {
+        const fetchWishlistItems = async () => {
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if (user) {
+                const userRef = doc(db, 'Users', user.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (userDoc.exists()) {
+                    const choiceList = userDoc.data().choiceList || [];
+
+                    const articles = await Promise.all(choiceList.map(async (item) => {
+                        const articleRef = doc(db, 'Articles', item.id);
+                        const articleDoc = await getDoc(articleRef);
+                        if (articleDoc.exists()) {
+                            const articleData = articleDoc.data();
+                            return {
+                                id: articleData.id || item.id,
+                                name: articleData.title,
+                                description: articleData.description,
+                                img: articleData.images[0] || placeholder
+                            };
+                        }
+                        return null;
+                    }));
+
+                    setItems(articles.filter(item => item !== null));
+                } else {
+                    console.error("Aucun utilisateur trouvé !");
+                }
+            }
+        };
+
+        fetchWishlistItems();
+    }, []);
+
+    const handleDetailClick = (item) => {
+        window.location.href = `/products/${item.id}`;
     };
 
     return (
         <main>
             <h1>Ma Liste d'Envies</h1>
             <div className="wishlist">
-                {items.map(item => (
-                    <div className="wishlist-item" key={item.id}>
-                        <img src={item.img} alt={item.name} />
-                        <div className="wishlist-item-info">
-                            <h3>{item.name}</h3>
-                            <p>{item.description}</p>
-                            <button onClick={() => handleDetailClick(item.name)}>Voir le détail</button>
+                {items.length > 0 ? (
+                    items.map(item => (
+                        <div className="wishlist-item" key={item.id}>
+                            <img src={item.img} alt={item.name} />
+                            <div className="wishlist-item-info">
+                                <h3>{item.name}</h3>
+                                <p>{item.description}</p>
+                                <button onClick={() => handleDetailClick(item)}>Voir le détail</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p>Aucun article dans votre liste d'envies.</p>
+                )}
             </div>
         </main>
     );
-}
+};
 
 export default Wishlist;

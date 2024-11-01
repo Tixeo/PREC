@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../contexts/authContext';
 import { doCreateUserWithEmailAndPassword, doSignInWithGoogle } from '../../../firebase/auth';
 import { db } from '../../../firebase/firebase';
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
 
 const Register = ({ closeModal }) => {
     const [email, setEmail] = useState('');
@@ -39,6 +40,8 @@ const Register = ({ closeModal }) => {
                 email,
                 name: username,
                 photoUrl,
+                admin: false,
+                choiceList: [],
             });
 
             closeModal();
@@ -56,7 +59,7 @@ const Register = ({ closeModal }) => {
     const handleGoogleSignUp = async (e) => {
         e.preventDefault();
         if (isRegistering) return;
-
+    
         setIsRegistering(true);
         try {
             await doSignInWithGoogle();
@@ -66,7 +69,7 @@ const Register = ({ closeModal }) => {
         } finally {
             setIsRegistering(false);
         }
-    };
+    };    
 
     return (
         <div className="container">
@@ -152,8 +155,6 @@ const Register = ({ closeModal }) => {
 
 export default Register;
 
-export const MaterialSymbolsCloseRounded = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}>
-        <path fill="currentColor" d="M12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275-.275-.7.275-.7L12 13.4l4.9-4.9q.275-.275.7-.275t.7.275.275.7-.275.7l-4.9 4.9z"/>
-    </svg>
-);
+export function MaterialSymbolsCloseRounded(props) {
+	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"></path></svg>);
+}

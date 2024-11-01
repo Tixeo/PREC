@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import Carousel from './components/Carousel';
-import ProductList from './components/ProductList';
-import Wishlist from './components/Wishlist';
-import Login from './components/auth/login';
-import Register from './components/auth/register';
-import SettingsPage from './pages/Setting';
 import { AuthProvider } from './contexts/authContext';
-import './styles/global.css';
-import './styles/style.css';
-import './styles/wishlist.css';
-import './styles/register.css';
+import { Helmet } from 'react-helmet';
+
+const Header = lazy(() => import('./components/Header'));
+const Footer = lazy(() => import('./components/Footer'));
+const Carousel = lazy(() => import('./components/Carousel'));
+const ProductList = lazy(() => import('./components/ProductList'));
+const Search = lazy(() => import('./components/Search'));
+const Wishlist = lazy(() => import('./components/Wishlist'));
+const SettingsPage = lazy(() => import('./components/Setting'));
+const Login = lazy(() => import('./components/auth/login'));
+const Register = lazy(() => import('./components/auth/register'));
+const AdminPanel = lazy(() => import('./components/AdminPanel'));
+const ProductPage = lazy(() => import('./components/ProductPage'));
+const NotFound = lazy(() => import('./components/404'));
+const TermsOfService = lazy(() => import('./components/TermsOfService'));
 
 function App() {
     return (
@@ -26,25 +29,55 @@ function App() {
 
 function AppContent() {
     const location = useLocation();
-    const isLoginPage = location.pathname === '/login';
-    const isRegisterPage = location.pathname === '/register';
+    
+    const getPageTitle = () => {
+        switch(location.pathname) {
+            case '/':
+                return 'Accueil';
+            case '/search':
+                return 'Recherche';
+            case '/ma-liste':
+                return 'Ma Liste de Souhaits';
+            case '/settings':
+                return 'Paramètres';
+            case '/admin':
+                return 'Panneau d\'Administration';
+            case '/terms-of-service':
+                return 'Conditions d\'Utilisation';
+            default:
+                if (location.pathname.startsWith('/products/')) {
+                    return 'Détails du Produit';
+                }
+                return 'Page Non Trouvée | 404';
+        }
+    };
 
     return (
         <>
-            {!isLoginPage && !isRegisterPage && <Header />}
-            <Routes>
-                <Route path="/" element={
-                    <main>
-                        <Carousel />
-                        <ProductList />
-                    </main>
-                } />
-                <Route path="/ma-liste" element={<Wishlist />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/parametre" element={<SettingsPage />} />
-            </Routes>
-            {!isLoginPage && !isRegisterPage && <Footer />}
+            <Helmet>
+                <title>{getPageTitle()}</title>
+                <link rel="icon" href="src/assets/images/sous-logo.jpg" />
+            </Helmet>
+
+            <Header />
+            <Suspense fallback={<div>Chargement...</div>}>
+                <Routes>
+                    <Route path="/" element={
+                        <main>
+                            <Carousel />
+                            <ProductList />
+                        </main>
+                    } />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/ma-liste" element={<Wishlist />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/admin" element={<AdminPanel />} />
+                    <Route path="/products/:productId" element={<ProductPage />} />
+                    <Route path="/terms-of-service" element={<TermsOfService />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Suspense>
+            <Footer />
         </>
     );
 }

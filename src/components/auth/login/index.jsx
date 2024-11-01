@@ -11,6 +11,23 @@ const Login = ({ closeModal }) => {
     const [isSigningIn, setIsSigningIn] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
+    const handleError = (error) => {
+        switch (error.code) {
+            case 'auth/invalid-email':
+                return "L'email fourni est invalide.";
+            case 'auth/user-disabled':
+                return "Cet utilisateur a été désactivé.";
+            case 'auth/user-not-found':
+                return "Aucun utilisateur trouvé avec cet email.";
+            case 'auth/wrong-password':
+                return "Le mot de passe est incorrect.";
+            case 'auth/invalid-credential':
+                return "Les informations d'identification fournies sont invalides.";
+            default:
+                return "Une erreur est survenue. Veuillez réessayer.";
+        }
+    }
+
     const onSubmit = async (e) => {
         e.preventDefault()
         if (!isSigningIn) {
@@ -20,23 +37,7 @@ const Login = ({ closeModal }) => {
                 await doSignInWithEmailAndPassword(email, password)
                 closeModal()
             } catch (error) {
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        setErrorMessage('Identifiant ou mot de passe incorrect.')
-                        break
-                    case 'auth/invalid-credential':
-                        setErrorMessage('Adresse e-mail ou mot de passe invalide.')
-                        break
-                    case 'auth/user-disabled':
-                        setErrorMessage('Ce compte a été désactivé.')
-                        break
-                    case 'auth/too-many-requests':
-                        setErrorMessage('Trop de tentatives de connexion. Veuillez réessayer plus tard.')
-                        break
-                    default:
-                        setErrorMessage('Une erreur est survenue lors de la connexion.')
-                }
+                setErrorMessage(handleError(error))
                 setIsSigningIn(false)
             }
         }
@@ -47,16 +48,14 @@ const Login = ({ closeModal }) => {
         if (!isSigningIn) {
             setIsSigningIn(true)
             setErrorMessage('')
-            doSignInWithGoogle().then(() => {
-                closeModal()
-            }).catch(error => {
-                if (error.code === 'auth/popup-closed-by-user') {
-                    setErrorMessage('La fenêtre de connexion a été fermée.')
-                } else {
-                    setErrorMessage('Une erreur est survenue lors de la connexion avec Google.')
-                }
-                setIsSigningIn(false)
-            })
+            doSignInWithGoogle()
+                .then(() => {
+                    closeModal()
+                })
+                .catch(err => {
+                    setErrorMessage(handleError(err))
+                    setIsSigningIn(false)
+                })
         }
     }
 
@@ -134,7 +133,6 @@ const Login = ({ closeModal }) => {
 
 export default Login
 
-
 export function MaterialSymbolsCloseRounded(props) {
-	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275z"></path></svg>);
+	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"></path></svg>);
 }

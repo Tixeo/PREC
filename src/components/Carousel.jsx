@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import img1 from '../assets/images/1.jpg';
-import img2 from '../assets/images/2.jpg';
+import { db } from '../firebase/firebase';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slides = [img1, img2];
+    const [slides, setSlides] = useState([]);
+
+    useEffect(() => {
+        const fetchLatestProducts = async () => {
+            const productsCollection = collection(db, 'Articles');
+            const q = query(productsCollection, orderBy('timestamp', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const latestProducts = querySnapshot.docs.slice(0, 2).map(doc => doc.data());
+
+            const images = latestProducts.map(product => product.images[0]);
+            setSlides(images);
+        };
+
+        fetchLatestProducts();
+    }, []);
 
     const moveToSlide = (index) => {
         setCurrentSlide(index);
@@ -16,6 +30,10 @@ function Carousel() {
         }, 5000);
         return () => clearInterval(interval);
     }, [slides.length]);
+
+    if (slides.length === 0) {
+        return <div>Chargement des articles...</div>;
+    }
 
     return (
         <section className="carousel-section">
