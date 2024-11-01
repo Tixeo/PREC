@@ -133,13 +133,6 @@ a > .nav-button {
     background-color: #e8e4d5;
 }
 
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-}
-
 /* Carousel */
 .carousel-section {
     max-width: 800px;
@@ -275,26 +268,107 @@ footer {
     gap: 0.5rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    header {
-        grid-template-columns: auto 1fr auto;
-        gap: 1rem;
-    }
-
-    .nav-buttons {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .header-right {
-        gap: 0.5rem;
-    }
-
-    footer {
-        grid-template-columns: 1fr;
-    }
+.nav a {
+    display: none;
 }
+
+
+@media (max-width: 768px) {
+    nav {
+        background-color: white;
+        border-top: 1px solid #ddd;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styles pour la navigation inférieure */
+    .bottom-navigation {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-top: 1px solid #ddd;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-around;
+        z-index: 1000;
+    }
+
+    .bottom-navigation a {
+        color: #333;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bottom-navigation a span {
+        font-size: 1.2rem;
+    }
+
+    nav a {
+        color: #333;
+        text-decoration: none;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    nav a span {
+        font-size: 1.2rem;
+    }
+    
+        /* Ajoutez un padding en bas du body pour la navigation fixe */
+        body {
+            padding-bottom: 60px;
+        }
+    
+        /* Cachez les boutons de navigation en mobile */
+        .nav-buttons {
+            display: none;
+        }
+    
+        /* Ajustez le header pour le mobile */
+        header {
+            padding: 0.5rem;
+        }
+    
+        .logo h1 {
+            font-size: 1.2rem;
+        }
+    
+        /* Ajustement de la grille des produits pour le mobile */
+        .products {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+    
+        /* Ajustement du footer pour la navigation inférieure */
+        footer {
+            margin-bottom: 60px;
+        }
+
+        /* Styles pour les boutons en mode mobile */
+        .mobile-nav-button {
+            padding: 0.5rem;
+            background-color: lightblue;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .nav-buttons {
+            display: none;
+        }
+        .bottom-navigation {
+            display: none;
+        }
+        nav {
+            display: none;
+        }
+    }
