@@ -13,6 +13,8 @@ const ProductPage = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [updatedProduct, setUpdatedProduct] = useState({ title: '', description: '', size: [], availableOnline: false });
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -41,6 +43,17 @@ const ProductPage = () => {
         };
         fetchProduct();
     }, [productId]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleThumbnailClick = (image) => {
         setCurrentImage(image);
@@ -138,27 +151,59 @@ const ProductPage = () => {
         }
     };
 
+    const previousImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.images.length) % product.images.length);
+    };
+
+    const nextImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
+    };
+
     if (!product) {
         return <div>Chargement...</div>;
     }
 
     return (
-        <main className='maneProduct'>
-            <section className="gallery">
-                <div className="thumbnails">
-                    {product.images.map((image, index) => (
-                        <img
-                            key={index}
-                            src={image}
-                            alt={`Miniature ${index + 1}`}
-                            className="thumbnail"
-                            onClick={() => handleThumbnailClick(image)}
-                        />
-                    ))}
+        <div className="maneProduct">
+            {!isMobile && (
+                <div className="gallery">
+                    <div className="thumbnails">
+                        {product.images.map((image, index) => (
+                            <img
+                                key={index}
+                                src={image}
+                                alt={`Thumbnail ${index + 1}`}
+                                className="thumbnail"
+                                onClick={() => setCurrentImageIndex(index)}
+                            />
+                        ))}
+                    </div>
+                    <div className="image-zoom-container">
+                        <ImageZoom src={product.images[currentImageIndex]} alt="Product" />
+                    </div>
                 </div>
-                <ImageZoom src={currentImage} alt="Image principale" />
-            </section>
-            <section className="product-info">
+            )}
+
+            {isMobile && (
+                <div className="mobile-gallery">
+                    <img className="main-image" src={product.images[currentImageIndex]} alt="Product" />
+                    <div className="carousel-buttons">
+                        <button onClick={previousImage}>❮</button>
+                        <button onClick={nextImage}>❯</button>
+                    </div>
+                    <div className="carousel-dots">
+                        {product.images.map((_, index) => (
+                            <span
+                                key={index}
+                                className={`dot ${currentImageIndex === index ? 'active' : ''}`}
+                                onClick={() => setCurrentImageIndex(index)}
+                            ></span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <div className="product-info">
                 <h2>{product.title}</h2>
                 <p>{product.description}</p>
                 <div className="size-selector">
@@ -227,8 +272,8 @@ const ProductPage = () => {
                         <button onClick={handleUpdate}>Enregistrer les modifications</button>
                     </div>
                 )}
-            </section>
-        </main>
+            </div>
+        </div>
     );
 };
 

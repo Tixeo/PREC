@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, User, ShoppingCart, Settings, Shield, UserPlus } from 'lucide-react';
+import { Home, User, Star, Settings, Shield, UserPlus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import Register from './auth/register';
 import Login from './auth/login';
@@ -28,7 +28,7 @@ const BottomNavigation = ({ user, isAdmin}) => {
           </a>
           
           <a href="/ma-liste" className={`nav-link ${isActive('/ma-liste') ? 'active-nav-link' : ''}`}>
-            <ShoppingCart size={20} />
+            <Star size={20} />
           </a>
           
           <a onClick={() => {openLoginModal(); closeModal();}} className="nav-link">
@@ -65,7 +65,7 @@ const BottomNavigation = ({ user, isAdmin}) => {
         </a>
         
         <a href="/ma-liste" className={`nav-link ${isActive('/ma-liste') ? 'active-nav-link' : ''}`}>
-          <ShoppingCart size={20} />
+          <Star size={20} />
         </a>
         
         <a href="/settings" className={`nav-link ${isActive('/settings') ? 'active-nav-link' : ''}`}>
