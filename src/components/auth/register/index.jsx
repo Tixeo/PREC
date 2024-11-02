@@ -4,6 +4,8 @@ import { useAuth } from '../../../contexts/authContext';
 import { doCreateUserWithEmailAndPassword, doSignInWithGoogle } from '../../../firebase/auth';
 import { db } from '../../../firebase/firebase';
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import "../../../styles/settings.css";
+
 
 
 const Register = ({ closeModal }) => {
@@ -12,6 +14,7 @@ const Register = ({ closeModal }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
 
     const { userLoggedIn } = useAuth();
 
@@ -26,6 +29,11 @@ const Register = ({ closeModal }) => {
         
         if (password.length < 6) {
             setErrorMessage("Le mot de passe doit contenir au moins 6 caractères.");
+            return;
+        }
+
+        if (!termsAccepted) {
+            setErrorMessage("Veuillez accepter les conditions d'utilisation.");
             return;
         }
 
@@ -111,6 +119,21 @@ const Register = ({ closeModal }) => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className='inputRegister'
                 />
+
+                <label className="checkbox-label" style={{ marginTop: '1rem' }}>
+                    <input
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={() => setTermsAccepted(!termsAccepted)}
+                        required
+                        />
+                        <span className="checkbox-custom">
+                            <span className="checkbox-checkmark">✓</span>
+                        </span>
+                        <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">
+                            <span style={{ fontWeight: 'normal', fontSize: '0.8em', padding:'0', margin:'0' }}>Accepter les conditions d'utilisation</span>
+                    </a>
+                </label>
 
                 {errorMessage && <span className='error'>{errorMessage}</span>}
 

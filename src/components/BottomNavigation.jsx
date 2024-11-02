@@ -40,20 +40,19 @@ const BottomNavigation = ({ user, isAdmin}) => {
           </a>
         </div>
         <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                    contentLabel="Modal d'inscription"
-                >
-                    <Register closeModal={closeModal} />
-                </Modal>
-
-                <Modal
-                    isOpen={loginModalIsOpen}
-                    onRequestClose={closeLoginModal}
-                    contentLabel="Modal de connexion"
-                >
-                    <Login closeModal={closeLoginModal} />
-                </Modal>
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Modal d'inscription"
+        >
+            <Register closeModal={closeModal} />
+        </Modal>
+        <Modal
+            isOpen={loginModalIsOpen}
+            onRequestClose={closeLoginModal}
+            contentLabel="Modal de connexion"
+        >
+            <Login closeModal={closeLoginModal} />
+        </Modal>
       </nav>
     );
   }

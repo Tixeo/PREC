@@ -197,11 +197,11 @@
     font-size: 14px;
 }
 
-.form-group input[type="checkbox"] {
+.checkbox-label input[type="checkbox"] {
     display: none;
 }
 
-.form-group label {
+.checkbox-label {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -220,7 +220,7 @@
     transition: all 0.3s ease;
 }
 
-.form-group input[type="checkbox"]:checked + .checkbox-custom {
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
     background-color: beige; 
     border-color: rgb(184, 184, 162);
 }
@@ -231,7 +231,7 @@
     display: none;
 }
 
-.form-group input[type="checkbox"]:checked + .checkbox-custom .checkbox-checkmark {
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom .checkbox-checkmark {
     display: block;
 }
 
