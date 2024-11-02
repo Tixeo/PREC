@@ -7,7 +7,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import logo from '../assets/images/logo.jpg';
 import Register from './auth/register';
 import Login from './auth/login';
-import BottomNavigation from './BottomNavigation';
 
 function Header() {
     const [user, setUser] = useState(null);
@@ -16,6 +15,7 @@ function Header() {
     const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -111,13 +111,6 @@ function Header() {
                     <Login closeModal={closeLoginModal} />
                 </Modal>
             </header>
-
-            <BottomNavigation 
-                user={user} 
-                isAdmin={isAdmin} 
-                openModal={openModal} 
-                openLoginModal={openLoginModal} 
-            />
         </>
     );
 }

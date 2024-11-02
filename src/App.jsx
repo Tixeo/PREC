@@ -1,7 +1,11 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/authContext';
 import { Helmet } from 'react-helmet';
+import BottomNavigation from './components/BottomNavigation';
+import { auth, db } from './firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Header = lazy(() => import('./components/Header'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -16,6 +20,7 @@ const AdminPanel = lazy(() => import('./components/AdminPanel'));
 const ProductPage = lazy(() => import('./components/ProductPage'));
 const NotFound = lazy(() => import('./components/404'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const Modal = lazy(() => import('react-modal'));
 
 function App() {
     return (
@@ -29,7 +34,35 @@ function App() {
 
 function AppContent() {
     const location = useLocation();
-    
+    const [user, setUser] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+            if (currentUser) {
+                const userDocRef = doc(db, 'Users', currentUser.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists() && userDoc.data().admin === true) {
+                    setIsAdmin(true);
+                } else {
+                    setIsAdmin(false);
+                }
+            } else {
+                setIsAdmin(false);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    const openModal = () => setModalIsOpen(true);
+    const closeModal = () => setModalIsOpen(false);
+    const openLoginModal = () => setLoginModalIsOpen(true);
+    const closeLoginModal = () => setLoginModalIsOpen(false);
+
     const getPageTitle = () => {
         switch(location.pathname) {
             case '/':
@@ -78,6 +111,12 @@ function AppContent() {
                 </Routes>
             </Suspense>
             <Footer />
+            <BottomNavigation 
+                user={user} 
+                isAdmin={isAdmin} 
+                openModal={openModal} 
+                openLoginModal={openLoginModal}
+            />
         </>
     );
 }

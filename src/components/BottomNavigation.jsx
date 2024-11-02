@@ -1,57 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Home, User, ShoppingCart, Settings, Shield, UserPlus } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import Register from './auth/register';
+import Login from './auth/login';
+import Modal from 'react-modal';
 
-const BottomNavigation = ({ user, isAdmin }) => {
+const BottomNavigation = ({ user, isAdmin}) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const location = useLocation();
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  const openLoginModal = () => setLoginModalIsOpen(true);
+  const closeLoginModal = () => setLoginModalIsOpen(false);
+  
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   if (!user) {
     return (
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 md:hidden">
-        <div className="flex justify-between items-center px-6">
-          <a href="/" className="flex flex-col items-center justify-center text-gray-600">
-            <Home size={20} className="mb-1" />
-            <span className="text-xs"></span>
+      <nav className="bottom-navigation">
+        <div className="nav-container">
+          <a href="/" className={`nav-link ${isActive('/') ? 'active-nav-link' : ''}`}>
+            <Home size={20} />
           </a>
           
-          <a href="/ma-liste" className="flex flex-col items-center justify-center text-gray-600">
-            <ShoppingCart size={20} className="mb-1" />
-            <span className="text-xs"></span>
+          <a href="/ma-liste" className={`nav-link ${isActive('/ma-liste') ? 'active-nav-link' : ''}`}>
+            <ShoppingCart size={20} />
           </a>
           
-          <a href="./src/components/auth/login/index.jsx" className="flex flex-col items-center justify-center text-gray-600">
-            <User size={20} className="mb-1" />
-            <span className="text-xs"></span>
+          <a onClick={() => {openLoginModal(); closeModal();}} className="nav-link">
+            <User size={20} />
           </a>
           
-          <a href="./src/components/auth/register/index.jsx" className="flex flex-col items-center justify-center text-gray-600">
-            <UserPlus size={20} className="mb-1" />
-            <span className="text-xs"></span>
+          <a onClick={() => {openModal(); closeLoginModal();}} className="nav-link">
+            <UserPlus size={20} />
           </a>
         </div>
+        <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Modal d'inscription"
+                >
+                    <Register closeModal={closeModal} />
+                </Modal>
+
+                <Modal
+                    isOpen={loginModalIsOpen}
+                    onRequestClose={closeLoginModal}
+                    contentLabel="Modal de connexion"
+                >
+                    <Login closeModal={closeLoginModal} />
+                </Modal>
       </nav>
     );
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 md:hidden">
-      <div className={`flex ${isAdmin ? 'justify-between' : 'justify-around'} items-center px-6`}>
-        <a href="/" className="flex flex-col items-center justify-center text-gray-600">
-          <Home size={20} className="mb-1" />
-          <span className="text-xs"></span>
+    <nav className="bottom-navigation">
+      <div className={`nav-container ${isAdmin ? 'admin-nav' : ''}`}>
+        <a href="/" className={`nav-link ${isActive('/') ? 'active-nav-link' : ''}`}>
+          <Home size={20} />
         </a>
         
-        <a href="/ma-liste" className="flex flex-col items-center justify-center text-gray-600">
-          <ShoppingCart size={20} className="mb-1" />
-          <span className="text-xs"></span>
+        <a href="/ma-liste" className={`nav-link ${isActive('/ma-liste') ? 'active-nav-link' : ''}`}>
+          <ShoppingCart size={20} />
         </a>
         
-        <a href="/settings" className="flex flex-col items-center justify-center text-gray-600">
-          <Settings size={20} className="mb-1" />
-          <span className="text-xs"></span>
+        <a href="/settings" className={`nav-link ${isActive('/settings') ? 'active-nav-link' : ''}`}>
+          <Settings size={20} />
         </a>
 
         {isAdmin && (
-          <a href="/admin" className="flex flex-col items-center justify-center text-gray-600">
-            <Shield size={20} className="mb-1" />
-            <span className="text-xs"></span>
+          <a href="/admin" className={`nav-link ${isActive('/admin') ? 'active-nav-link' : ''}`}>
+            <Shield size={20} />
           </a>
         )}
       </div>

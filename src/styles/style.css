@@ -9,6 +9,9 @@ body {
         radial-gradient(circle, transparent 25%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.05) 50%, transparent 50%),
         beige;
     background-size: 30px 30px, 30px 30px, 50px 50px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+    position: relative;
 }
 
 /* Header */
@@ -255,6 +258,7 @@ footer {
     gap: 2rem;
     text-align: center;
     margin-top: 2rem;
+    margin-bottom: 60px;
 }
 
 .footer-logo img {
@@ -273,33 +277,100 @@ footer {
 }
 
 
+.bottom-navigation {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+}
+
+.admin-nav {
+    justify-content: space-between;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-link svg {
+    margin-bottom: 4px;
+}
+
+.active-nav-link {
+    border-bottom: 2px solid beige;
+    color: #000;
+}
+
+.active-nav-link svg {
+    background-color: #e6d9b8;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+/* Mobile --------------------------------------------------------------------------------- */
+
 @media (max-width: 768px) {
+
+    .site-title h1 {
+        display: none;
+    }
+
+    footer {
+        padding-bottom: 90px;
+    }
+
+    html {
+        overflow-x: hidden;
+        height: 100vh;
+    }
     nav {
         background-color: white;
         border-top: 1px solid #ddd;
         box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
     }
 
-    /* Styles pour la navigation inférieure */
     .bottom-navigation {
         position: fixed;
-        bottom: 0;
+        bottom: -4px;
         left: 0;
         right: 0;
         background-color: white;
         border-top: 1px solid #ddd;
         box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-        padding: 10px 0;
+        height: 70px;
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        align-items: center;
         z-index: 1000;
+        padding: 0;
+    }
+
+    .bottom-navigation > div {
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: row;
     }
 
     .bottom-navigation a {
         color: #333;
         text-decoration: none;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
@@ -322,17 +393,14 @@ footer {
         font-size: 1.2rem;
     }
     
-        /* Ajoutez un padding en bas du body pour la navigation fixe */
         body {
             padding-bottom: 60px;
         }
     
-        /* Cachez les boutons de navigation en mobile */
         .nav-buttons {
             display: none;
         }
     
-        /* Ajustez le header pour le mobile */
         header {
             padding: 0.5rem;
         }
@@ -341,18 +409,15 @@ footer {
             font-size: 1.2rem;
         }
     
-        /* Ajustement de la grille des produits pour le mobile */
         .products {
             grid-template-columns: 1fr;
             padding: 1rem;
         }
     
-        /* Ajustement du footer pour la navigation inférieure */
         footer {
             margin-bottom: 60px;
         }
 
-        /* Styles pour les boutons en mode mobile */
         .mobile-nav-button {
             padding: 0.5rem;
             background-color: lightblue;
@@ -370,5 +435,23 @@ footer {
         }
         nav {
             display: none;
+        }
+    }
+
+    main {
+        min-height: calc(100vh - 60px);
+    }
+
+    @media (min-width: 768px) {
+        .bottom-navigation {
+            display: none;
+        }
+
+        footer {
+            margin-bottom: 0;
+        }
+
+        body {
+            padding-bottom: 0;
         }
     }
