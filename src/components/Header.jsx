@@ -95,7 +95,6 @@ function Header() {
                     </nav>
                 </div>
 
-                {/* Modals remain the same */}
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -113,7 +112,6 @@ function Header() {
                 </Modal>
             </header>
 
-            {/* Bottom navigation for mobile */}
             <BottomNavigation 
                 user={user} 
                 isAdmin={isAdmin} 
