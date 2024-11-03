@@ -20,6 +20,7 @@ const AdminPanel = lazy(() => import('./components/AdminPanel'));
 const ProductPage = lazy(() => import('./components/ProductPage'));
 const NotFound = lazy(() => import('./components/404'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const MentionsLegales = lazy(() => import('./components/MentionsLegales'));
 const Modal = lazy(() => import('react-modal'));
 
 function App() {
@@ -107,6 +108,7 @@ function AppContent() {
                     <Route path="/admin" element={<AdminPanel />} />
                     <Route path="/products/:productId" element={<ProductPage />} />
                     <Route path="/terms-of-service" element={<TermsOfService />} />
+                    <Route path="/mentions-legales" element={<MentionsLegales />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>
