@@ -4,6 +4,7 @@ import { db } from '../firebase/firebase';
 import { doc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import ImageZoom from './ImageZoom';
+import { useSwipeable } from 'react-swipeable';
 
 const ProductPage = () => {
     const { productId } = useParams();
@@ -169,6 +170,21 @@ const ProductPage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
     };
 
+    const handleSwipe = (direction) => {
+        if (direction === 'LEFT') {
+            nextImage();
+        } else if (direction === 'RIGHT') {
+            previousImage();
+        }
+    };
+
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => handleSwipe('LEFT'),
+        onSwipedRight: () => handleSwipe('RIGHT'),
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true
+    });
+
     if (!product) {
         return <div>Chargement...</div>;
     }
@@ -195,12 +211,8 @@ const ProductPage = () => {
             )}
 
             {isMobile && (
-                <div className="mobile-gallery">
+                <div className="mobile-gallery" {...swipeHandlers}>
                     <img className="main-image" src={product.images[currentImageIndex]} alt="Product" />
-                    <div className="carousel-buttons">
-                        <button onClick={previousImage}>❮</button>
-                        <button onClick={nextImage}>❯</button>
-                    </div>
                     <div className="carousel-dots">
                         {product.images.map((_, index) => (
                             <span
