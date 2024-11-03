@@ -18,6 +18,7 @@ function Footer() {
                 <div className="footer-links">
                     <a href="https://www.facebook.com/profile.php?id=100058107847441&locale=fr_FR">Facebook</a>
                     <a href="/terms-of-service">Conditions d'utilisation</a>
+                    <a href="/mentions-legales">Mentions légales</a>
                 </div>
             </div>
         </footer>
