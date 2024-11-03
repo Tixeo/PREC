@@ -9,7 +9,7 @@ function Footer() {
             </div>
 
             <div className="footer-address">
-                <a href="https://g.co/kgs/W1AupDK">6 Rue de Verrue, 50550 Saint-Vaast-la-Hougue, France</a>
+                <a href="https://www.google.com/maps/dir//6+Rue+de+Verrue,+50550+Saint-Vaast-la-Hougue,+France">6 Rue de Verrue, 50550 Saint-Vaast-la-Hougue, France</a>
                 <p>Saint-Vaast-la-Hougue, France</p>
             </div>
 

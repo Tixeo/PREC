@@ -231,7 +231,7 @@ const ProductPage = () => {
                 <p className="availability">{product.availableOnline ? "Disponible en ligne" : "Uniquement disponible en magasin"}</p>
                 <button className="wishlist-button" onClick={handleWishlistClick}>
                     <span className="star" style={{ color: isWishlisted ? 'gold' : 'black' }}>☆</span> {isWishlisted ? "Ajouté" : "Ajouter à Ma liste"}
-                </button>
+                </button> 
 
                 {isAdmin && (
                     <div className="admin-buttons">
@@ -260,7 +260,7 @@ const ProductPage = () => {
                                 onChange={handleInputChange} 
                             />
                         </label>
-                        <label>
+                        {/* <label>
                             Disponible en magasin:
                             <input 
                                 type="checkbox" 
@@ -268,7 +268,7 @@ const ProductPage = () => {
                                 checked={updatedProduct.availableOnline} 
                                 onChange={handleInputChange} 
                             />
-                        </label>
+                        </label> */}
                         <button onClick={handleUpdate}>Enregistrer les modifications</button>
                     </div>
                 )}
