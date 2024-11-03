@@ -4,7 +4,6 @@ import { db } from '../firebase/firebase';
 import { doc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import ImageZoom from './ImageZoom';
-import { useSwipeable } from 'react-swipeable';
 
 const ProductPage = () => {
     const { productId } = useParams();
@@ -107,12 +106,22 @@ const ProductPage = () => {
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (type === "checkbox") {
-            setUpdatedProduct((prev) => ({
-                ...prev,
-                [name]: checked,
-            }));
+            if (name === "size") {
+                const size = value;
+                setUpdatedProduct(prev => ({
+                    ...prev,
+                    size: checked 
+                        ? [...prev.size, size]
+                        : prev.size.filter(s => s !== size)
+                }));
+            } else {
+                setUpdatedProduct(prev => ({
+                    ...prev,
+                    [name]: checked,
+                }));
+            }
         } else {
-            setUpdatedProduct((prev) => ({
+            setUpdatedProduct(prev => ({
                 ...prev,
                 [name]: value,
             }));
@@ -160,21 +169,6 @@ const ProductPage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
     };
 
-    const handleSwipe = (direction) => {
-        if (direction === 'LEFT') {
-            nextImage();
-        } else if (direction === 'RIGHT') {
-            previousImage();
-        }
-    };
-
-    const swipeHandlers = useSwipeable({
-        onSwipedLeft: () => handleSwipe('LEFT'),
-        onSwipedRight: () => handleSwipe('RIGHT'),
-        preventDefaultTouchmoveEvent: true,
-        trackMouse: true
-    });
-
     if (!product) {
         return <div>Chargement...</div>;
     }
@@ -201,8 +195,12 @@ const ProductPage = () => {
             )}
 
             {isMobile && (
-                <div className="mobile-gallery" {...swipeHandlers}>
+                <div className="mobile-gallery">
                     <img className="main-image" src={product.images[currentImageIndex]} alt="Product" />
+                    <div className="carousel-buttons">
+                        <button onClick={previousImage}>❮</button>
+                        <button onClick={nextImage}>❯</button>
+                    </div>
                     <div className="carousel-dots">
                         {product.images.map((_, index) => (
                             <span
@@ -223,17 +221,7 @@ const ProductPage = () => {
                     {product.size.map((size) => (
                         <label key={size}>
                             <button 
-                                className={`size-button ${updatedProduct.size.includes(size) ? 'selected' : ''}`} 
-                                onClick={() => {
-                                    const newSize = size;
-                                    setUpdatedProduct(prev => {
-                                        const newSizes = prev.size.includes(newSize)
-                                            ? prev.size.filter(s => s !== newSize) 
-                                            : [...prev.size, newSize];
-                                        return { ...prev, size: newSizes };
-                                    });
-                                }}
-                            >
+                                className={`size-button ${updatedProduct.size.includes(size) ? 'selected' : ''}`} >
                                 {size}
                             </button>
                         </label>
@@ -272,15 +260,23 @@ const ProductPage = () => {
                                 onChange={handleInputChange} 
                             />
                         </label>
-                        {/* <label>
-                            Disponible en magasin:
-                            <input 
-                                type="checkbox" 
-                                name="availableOnline" 
-                                checked={updatedProduct.availableOnline} 
-                                onChange={handleInputChange} 
-                            />
-                        </label> */}
+                        
+                        <div className="size-checkboxes">
+                            <h4>Tailles disponibles:</h4>
+                            {['S', 'M', 'L', 'XL'].map((size) => (
+                                <label key={size}>
+                                    <input 
+                                        type="checkbox"
+                                        name="size"
+                                        value={size}
+                                        checked={updatedProduct.size.includes(size)}
+                                        onChange={handleInputChange}
+                                    />
+                                    {size}
+                                </label>
+                            ))}
+                        </div>
+
                         <button onClick={handleUpdate}>Enregistrer les modifications</button>
                     </div>
                 )}
