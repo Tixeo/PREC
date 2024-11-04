@@ -164,12 +164,12 @@ const ProductPage = () => {
     };
 
     const previousImage = () => {
-        setTransitionClass('slide-right');
+        setTransitionClass('slide-right image-transition');
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.images.length) % product.images.length);
     };
 
     const nextImage = () => {
-        setTransitionClass('slide-left');
+        setTransitionClass('slide-left image-transition');
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
     };
 
@@ -216,10 +216,9 @@ const ProductPage = () => {
             {isMobile && (
                 <div className="mobile-gallery" {...swipeHandlers}>
                     <img 
-                        className={`main-image ${transitionClass}`} 
+                        className={`main-image ${transitionClass}`}
                         src={product.images[currentImageIndex]} 
                         alt="Product" 
-                        onAnimationEnd={() => setTransitionClass('')}
                     />
                     <div className="carousel-dots">
                         {product.images.map((_, index) => (
