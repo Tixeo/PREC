@@ -456,28 +456,9 @@ footer {
         }
     }
 
-    .slide-left {
-        animation: slideLeft 0.5s forwards;
+    .image-transition {
+        transition: transform 0.5s ease;
     }
-    
-    .slide-right {
-        animation: slideRight 0.5s forwards;
-    }
-    
-    @keyframes slideLeft {
-        from {
-            transform: translateX(100%);
-        }
-        to {
-            transform: translateX(0);
-        }
-    }
-    
-    @keyframes slideRight {
-        from {
-            transform: translateX(-100%);
-        }
-        to {
-            transform: translateX(0);
-        }
-    }
+
+
+
