@@ -16,6 +16,7 @@ const ProductPage = () => {
     const [updatedProduct, setUpdatedProduct] = useState({ title: '', description: '', size: [], availableOnline: false });
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [transitionClass, setTransitionClass] = useState('');
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -163,10 +164,12 @@ const ProductPage = () => {
     };
 
     const previousImage = () => {
+        setTransitionClass('slide-right');
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.images.length) % product.images.length);
     };
 
     const nextImage = () => {
+        setTransitionClass('slide-left');
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
     };
 
@@ -212,7 +215,12 @@ const ProductPage = () => {
 
             {isMobile && (
                 <div className="mobile-gallery" {...swipeHandlers}>
-                    <img className="main-image" src={product.images[currentImageIndex]} alt="Product" />
+                    <img 
+                        className={`main-image ${transitionClass}`} 
+                        src={product.images[currentImageIndex]} 
+                        alt="Product" 
+                        onAnimationEnd={() => setTransitionClass('')}
+                    />
                     <div className="carousel-dots">
                         {product.images.map((_, index) => (
                             <span
