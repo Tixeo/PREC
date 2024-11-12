@@ -13,7 +13,7 @@ const ProductPage = () => {
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [updatedProduct, setUpdatedProduct] = useState({ title: '', description: '', size: [], availableOnline: false });
+    const [updatedProduct, setUpdatedProduct] = useState({ title: '', description: '', size: [], availableOnline: false, filter: '' });
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [transitionClass, setTransitionClass] = useState('');
@@ -99,7 +99,6 @@ const ProductPage = () => {
             console.error("Erreur lors de l'ajout ou de la suppression à la liste :", error);
         }
     };    
-    
 
     const handleEdit = () => {
         setIsEditing(!isEditing);
@@ -235,6 +234,12 @@ const ProductPage = () => {
             <div className="product-info">
                 <h2>{product.title}</h2>
                 <p>{product.description}</p>
+
+                {/* Afficher la catégorie ici */}
+                {product.filter && (
+                    <p className="category">Catégorie: {product.filter}</p>
+                )}
+
                 <div className="size-selector">
                     <h3>Tailles disponibles</h3>
                     {product.size.map((size) => (

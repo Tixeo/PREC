@@ -17,7 +17,7 @@ function Footer() {
                 <p>Contact: 02 33 20 13 45</p>
                 <div className="footer-links">
                     <a href="https://www.facebook.com/profile.php?id=100058107847441&locale=fr_FR">Facebook</a>
-                    <a href="https://sixtar-tixs-organization.gitbook.io/pois-rayures-et-caro/">Wiki/FAQ</a>
+                    <a target='blank' href="https://sixtar-tixs-organization.gitbook.io/pois-rayures-et-caro/">Wiki/FAQ</a>
                     <a href="/terms-of-service">Conditions d'utilisation</a>
                     <a href="/mentions-legales">Mentions légales</a>
                 </div>

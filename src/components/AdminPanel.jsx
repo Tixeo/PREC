@@ -15,8 +15,11 @@ const AdminPanel = () => {
     const [images, setImages] = useState([]);
     const [size, setSize] = useState([]);
     const [availableOnline, setAvailableOnline] = useState(false);
+    const [filter, setFilter] = useState(null); // Initialisé à null pour indiquer l'absence de filtre
     const navigate = useNavigate();
     const storage = getStorage();
+
+    const filterOptions = ["bonnet", "écharpe", "pantalon", "chaussette", "pull", "tee-shirt"];
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -60,7 +63,7 @@ const AdminPanel = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (title && description && images.length > 0) {
+        if (title && description && images.length > 0) { // Retirer la validation du filtre ici
             const imageUrls = await Promise.all(images.map(uploadImage));
             const articleData = {
                 title,
@@ -68,6 +71,7 @@ const AdminPanel = () => {
                 images: imageUrls,
                 size,
                 availableOnline,
+                filter, // `filter` sera null s'il n'est pas sélectionné
                 timestamp: new Date()
             };
 
@@ -79,6 +83,7 @@ const AdminPanel = () => {
                 setImages([]);
                 setSize([]);
                 setAvailableOnline(false);
+                setFilter(null); // Réinitialiser le filtre à null
             } catch (error) {
                 console.error("Erreur lors de la création de l'article: ", error);
                 alert("Erreur lors de la création de l'article.");
@@ -177,6 +182,21 @@ const AdminPanel = () => {
                                 </label>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Champ de sélection de filtre, optionnel */}
+                    <div className="form-group">
+                        <label htmlFor="filter">Filtre</label>
+                        <select
+                            id="filter"
+                            value={filter || ""}
+                            onChange={(e) => setFilter(e.target.value || null)} // Null si aucune option sélectionnée
+                        >
+                            <option value="">Aucun filtre</option>
+                            {filterOptions.map((option) => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="form-group" style={{ display: 'none' }}>
