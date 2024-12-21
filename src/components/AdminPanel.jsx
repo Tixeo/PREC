@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "../styles/style.css";
 import "../styles/settings.css";
+import { GoogleGenerativeAI } from "https://cdn.skypack.dev/@google/generative-ai";
 
 const AdminPanel = () => {
     const [user, setUser] = useState(null);
@@ -15,11 +16,13 @@ const AdminPanel = () => {
     const [images, setImages] = useState([]);
     const [size, setSize] = useState([]);
     const [availableOnline, setAvailableOnline] = useState(false);
-    const [filter, setFilter] = useState(null); // Initialisé à null pour indiquer l'absence de filtre
+    const [filter, setFilter] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const storage = getStorage();
 
-    const filterOptions = ["bonnet", "écharpe", "pantalon", "chaussette", "pull", "tee-shirt"];
+    const filterOptions = ["bonnet","écharpe","pantalon","chaussette","pull","tee-shirt","chemise","veste","blouson","manteau","doudoune","gants","chapeau","casquette","bermuda","short","jupe","robe","legging","pyjama","sous-vêtement","maillot de bain","débardeur","cardigan","gilet","tailleur","costume","cravate","ceinture","bottes","baskets","chaussures","mocassins","sandales","tongs",];
+    const genAI = new GoogleGenerativeAI("AIzaSyCAJCjCZVkAuB_FfZo6U22OBT509_OT0yE");
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -39,15 +42,53 @@ const AdminPanel = () => {
         return () => unsubscribe();
     }, [navigate]);
 
-    const handleImageChange = (event) => {
+    const handleImageChange = async (event) => {
         const selectedFiles = Array.from(event.target.files);
         const totalImages = images.length + selectedFiles.length;
 
         if (totalImages <= 10) {
             setImages((prevImages) => [...prevImages, ...selectedFiles]);
+
+            const file = selectedFiles[0];
+            if (file) {
+                setLoading(true);
+                const base64String = await fileToBase64(file);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+                const result = await model.generateContent([
+                    {
+                        inlineData: {
+                            data: base64String,
+                            mimeType: file.type
+                        }
+                    },
+                    {text: "Analyse cette image et fournis les informations suivantes, séparées par un retour à la ligne, sans commentaires ni titres pour chaque partie :\n\n1. Un titre très court décrivant uniquement le vêtement.\n2. Une description courte et précise du vêtement, sans référence à la personne qui pourrait le porter ni les accessoire ajouté.\n3. Un type de vêtement choisi uniquement parmi la liste suivante : [\"bonnet\", \"écharpe\", \"pantalon\", \"chaussette\", \"pull\", \"tee-shirt\", \"chemise\", \"veste\", \"blouson\", \"manteau\", \"doudoune\", \"gants\", \"chapeau\", \"casquette\", \"bermuda\", \"short\", \"jupe\", \"robe\", \"legging\", \"pyjama\", \"sous-vêtement\", \"maillot de bain\", \"débardeur\", \"cardigan\", \"gilet\", \"tailleur\", \"costume\", \"cravate\", \"ceinture\", \"bottes\", \"baskets\", \"chaussures\", \"mocassins\", \"sandales\", \"tongs\"].\n\nVoici un exemple de réponse :\nPantalon Noir\nPantalon bleu marine à fines rayures.\npantalon"}                      
+                ]);
+
+                const processedText = result.response.text();
+                const titleAndDescription = processedText.split('\n');
+
+                const cleanTitle = titleAndDescription[0]?.trim() || "";
+                const cleanDescription = titleAndDescription[1]?.trim() || "";
+                const cleanFilter = titleAndDescription[2]?.trim().toLowerCase() || "";
+
+                setTitle(cleanTitle);
+                setDescription(cleanDescription);
+                setFilter(cleanFilter);
+                setLoading(false);
+            }
         } else {
             alert("Vous pouvez ajouter jusqu'à 10 images au maximum.");
         }
+    };
+
+    const fileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
     };
 
     const removeImage = (index) => {
@@ -63,7 +104,7 @@ const AdminPanel = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (title && description && images.length > 0) { // Retirer la validation du filtre ici
+        if (title && description && images.length > 0) {
             const imageUrls = await Promise.all(images.map(uploadImage));
             const articleData = {
                 title,
@@ -71,7 +112,7 @@ const AdminPanel = () => {
                 images: imageUrls,
                 size,
                 availableOnline,
-                filter, // `filter` sera null s'il n'est pas sélectionné
+                filter,
                 timestamp: new Date()
             };
 
@@ -83,7 +124,7 @@ const AdminPanel = () => {
                 setImages([]);
                 setSize([]);
                 setAvailableOnline(false);
-                setFilter(null); // Réinitialiser le filtre à null
+                setFilter(null);
             } catch (error) {
                 console.error("Erreur lors de la création de l'article: ", error);
                 alert("Erreur lors de la création de l'article.");
@@ -108,7 +149,7 @@ const AdminPanel = () => {
         <main>
             <div className="settings-container">
                 <h2>Panneau d'administration</h2>
-
+                {loading && <div className="loading-spinner">Chargement...</div>}
                 <form className="settings-form" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="title">Titre</label>
