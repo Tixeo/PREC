@@ -259,8 +259,8 @@ const ProductPage = () => {
 
                 {isAdmin && (
                     <div className="admin-buttons">
-                        <button onClick={handleEdit} className="admin-button edit-button">Modifier</button>
-                        <button onClick={handleDelete} className="admin-button delete-button">Supprimer</button>
+                        <button onClick={handleEdit} className="admin-buttons edit-button">Modifier</button>
+                        <button onClick={handleDelete} className="admin-buttons delete-button">Supprimer</button>
                     </div>
                 )}
 

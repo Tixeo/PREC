@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { auth, db } from '../firebase/firebase';
@@ -7,6 +7,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import logo from '../assets/images/logo.jpg';
 import Register from './auth/register';
 import Login from './auth/login';
+import '../styles/header.css';
 
 function Header() {
     const [user, setUser] = useState(null);
@@ -14,8 +15,9 @@ function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isSearchExpanded, setIsSearchExpanded] = useState(false);
     const navigate = useNavigate();
-
+    const searchRef = useRef(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -38,6 +40,18 @@ function Header() {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setIsSearchExpanded(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
@@ -47,13 +61,17 @@ function Header() {
     const handleSearch = (event) => {
         event.preventDefault();
         if (searchQuery.trim()) {
-            navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
+            navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
         }
+    };
+
+    const toggleSearch = () => {
+        setIsSearchExpanded(true);
     };
 
     return (
         <>
-            <header>
+            <header className="header">
                 <div className="logo">
                     <img src={logo} alt="Logo Pois Rayures et Caro" className="logo-img" />
                     <a href="/" className="site-title">
@@ -62,14 +80,17 @@ function Header() {
                 </div>
 
                 <div className="header-center">
-                    <form onSubmit={handleSearch} className="search-bar">
-                        <input 
-                            type="search" 
-                            placeholder="Rechercher..." 
-                            value={searchQuery} 
+                    <form onSubmit={handleSearch} className={`search-bar ${isSearchExpanded ? 'expanded' : ''}`} ref={searchRef}>
+                        <input
+                            type="search"
+                            placeholder="Rechercher..."
+                            value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            onClick={toggleSearch}
                         />
-                        <button type="submit">🔍</button>
+                        <button type="submit">
+                            🔍
+                        </button>
                     </form>
                 </div>
 
@@ -77,19 +98,29 @@ function Header() {
                     <nav className="nav-buttons">
                         {user ? (
                             <>
-                                <button className="fidelity-button" disabled>Fidélité</button>
-                                <a href="/ma-liste"><button className="nav-button">Ma liste</button></a>
-                                <a href="/settings"><button className="nav-button">Paramètres</button></a>
+                                <a href="#" className="nav-button loyalty-button" disabled>
+                                    Fidélité
+                                </a>
+                                <a href="/ma-liste" className="nav-button">
+                                    Ma liste
+                                </a>
+                                <a href="/settings" className="nav-button">
+                                    Paramètres
+                                </a>
                                 {isAdmin && (
-                                    <a href="/admin">
-                                        <button style={{ backgroundColor: 'red', color: 'white' }} className="nav-button admin-button">Administration</button>
+                                    <a href="/admin" className="nav-button admin-button">
+                                        Administration
                                     </a>
                                 )}
                             </>
                         ) : (
                             <>
-                                <button className="nav-button" onClick={openLoginModal}>Connexion</button>
-                                <button onClick={openModal} className="nav-button">Inscription</button>
+                                <button className="nav-button" onClick={openLoginModal}>
+                                    Connexion
+                                </button>
+                                <button onClick={openModal} className="nav-button">
+                                    Inscription
+                                </button>
                             </>
                         )}
                     </nav>
