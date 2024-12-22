@@ -129,23 +129,27 @@
 
 .admin-buttons {
     margin-top: 1rem;
+    text-decoration-color: #fff;
 }
 
-.admin-button {
+.admin-buttons {
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration-color: #fff;
 }
 
 .edit-button {
     background-color: #007bff;
+    text-decoration-color: #fff;
 }
 
 .delete-button {
     background-color: red;
+    text-decoration-color: #fff;
 }
 
 

@@ -1,0 +1,300 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.site-title {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header-center {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 0.5rem; /* Ajuste le padding */
+    height: 40px; /* Ajuste la hauteur */
+    width: 200px; /* Largeur initiale */
+    max-width: 400px; /* Largeur maximale */
+    transition: width 0.3s ease; /* Animation de transition */
+}
+
+.search-bar.expanded {
+    width: 400px; /* Largeur agrandie */
+}
+
+.search-bar input {
+    padding: 0.5rem; /* Ajuste le padding */
+    border: none;
+    border-radius: 20px 0 0 20px;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+    font-size: 1rem; /* Ajuste la taille de la police */
+}
+
+.search-bar button {
+    padding: 0.5rem 0.75rem; /* Ajuste le padding pour remonter la loupe */
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #333;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem; /* Ajuste la taille de l'emoji */
+    margin-top: -2px; /* Ajuste la marge pour remonter la loupe */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Ajuste l'espacement entre les boutons */
+    margin-left: 1rem; /* Déplace les boutons plus vers la gauche */
+    margin-right: 6rem; /* Ajoute une marge à droite pour éviter que les boutons ne touchent le bord */
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center; /* Aligne les boutons verticalement */
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+    text-decoration: none; /* Supprime le soulignement par défaut des liens */
+    height: 40px; /* Hauteur uniforme pour les boutons */
+    display: flex;
+    align-items: center; /* Aligne le contenu verticalement */
+}
+
+.nav-button:hover {
+    color: #000;
+    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+}
+
+.nav-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 12px; /* Ajuste la position de la barre */
+    left: 0;
+    background-color: #000;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.nav-button:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.admin-button {
+    color: #ff6347;
+}
+
+.admin-button:hover {
+    color: #ff4500;
+    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+}
+
+.loyalty-button {
+    color: #cccccc;
+    cursor: not-allowed;
+}
+
+.loyalty-button:hover {
+    color: #cccccc;
+    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+}
+
+/* Ajout d'une marge en dessous du header */
+.header + * {
+    margin-top: 50px; /* 50px pour le header + 10px de marge supplémentaire */
+}
+
+/* Mobile --------------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .site-title h1 {
+        display: none;
+    }
+
+    html {
+        overflow-x: hidden;
+        height: 100vh;
+    }
+
+    nav {
+        background-color: white;
+        border-top: 1px solid #ddd;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .bottom-navigation {
+        position: fixed;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-top: 1px solid #ddd;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 0;
+    }
+
+    .bottom-navigation > div {
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .bottom-navigation a {
+        color: #333;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bottom-navigation a span {
+        font-size: 1.2rem;
+    }
+
+    nav a {
+        color: #333;
+        text-decoration: none;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    nav a span {
+        font-size: 1.2rem;
+    }
+
+    body {
+        padding-bottom: 60px;
+    }
+
+    .nav-buttons {
+        display: none;
+    }
+
+    header {
+        padding: 0.5rem;
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    footer {
+        margin-bottom: 60px;
+    }
+
+    .mobile-nav-button {
+        padding: 0.5rem;
+        background-color: lightblue;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .search-bar {
+        width: 100%; /* Largeur fixe pour mobile */
+        max-width: none; /* Désactive la largeur maximale */
+        transition: none; /* Désactive la transition */
+    }
+
+    .search-bar.expanded {
+        width: 100%; /* Largeur fixe pour mobile */
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-buttons {
+        display: flex;
+    }
+    .bottom-navigation {
+        display: none;
+    }
+    nav {
+        display: none;
+    }
+}
+
+main {
+    min-height: calc(100vh - 60px);
+}
+
+@media (min-width: 768px) {
+    .bottom-navigation {
+        display: none;
+    }
+
+    footer {
+        margin-bottom: 0;
+    }
+
+    body {
+        padding-bottom: 0;
+    }
+}
+
+.image-transition {
+    transition: transform 0.5s ease;
+}
