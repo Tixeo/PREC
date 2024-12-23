@@ -171,9 +171,11 @@
 
     .bottom-navigation {
         position: fixed;
-        bottom: -4px;
+        bottom: 0;
         left: 0;
         right: 0;
+        width: 100%;
+        overflow-x: hidden;
         background-color: white;
         border-top: 1px solid #ddd;
         box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
@@ -186,9 +188,10 @@
     }
 
     .bottom-navigation > div {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
         width: 100%;
+        box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -223,6 +226,9 @@
 
     body {
         padding-bottom: 60px;
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
     }
 
     .nav-buttons {
