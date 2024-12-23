@@ -46,6 +46,28 @@ const THEMES = {
     titleSecondPart: '#cccccc',
     pageTitle: ' 🐇',
     background: '#f0f0ff'
+  },
+  newYear: {
+    primary: '#ffffff',
+    secondary: '#000000',
+    text: '#333333',
+    accent: '#ffcc00',
+    searchIcon: '🎉',
+    titleFirstPart: '#ffcc00',
+    titleSecondPart: '#333333',
+    pageTitle: ' 🎆',
+    background: '#ffffff'
+  },
+  poissonDAvril: {
+    primary: '#f2c464',
+    secondary: '#ffffff',
+    text: '#333333',
+    accent: '#007bff',
+    searchIcon: '🐟',
+    titleFirstPart: '#007bff',
+    titleSecondPart: '#cccccc',
+    pageTitle: ' 🐟',
+    background: '#f2c464'
   }
 };
 
@@ -54,16 +76,27 @@ export const getThemeForDate = () => {
   const month = date.getMonth();
   const day = date.getDate();
 
-  // Noël (décembre)
-  if (month === 11) {
+  // Noël (1-25 décembre)
+  if (month === 11 && day >= 1 && day <= 25) {
     console.log("Thème de Noël activé");
     return THEMES.christmas;
+  }
+  // Jour de l'An (26-31 décembre)
+  if (month === 11 && day >= 26 || month === 0 && day <= 1) {
+    console.log("Thème du Jour de l'An activé");
+    return THEMES.newYear;
   }
   
   // Halloween (15-31 octobre)
   if (month === 9 && day >= 15) {
     console.log("Thème d'Halloween activé");
     return THEMES.halloween;
+  }
+
+  // Poisson d'Avril (1er avril)
+  if (month === 3 && day === 1) {
+    console.log("Thème du Poisson d'Avril activé");
+    return THEMES.poissonDAvril;
   }
   
   // Pâques (2 semaines autour de la date)
