@@ -43,13 +43,16 @@
     border-radius: 20px;
     padding: 0.5rem; /* Ajuste le padding */
     height: 40px; /* Ajuste la hauteur */
-    width: 200px; /* Largeur initiale */
-    max-width: 400px; /* Largeur maximale */
+    width: 100%; /* Largeur maximale pour mobile */
+    max-width: none; /* Désactive la largeur maximale */
     transition: width 0.3s ease; /* Animation de transition */
+
+    margin-left: auto; /* Aligne la barre de recherche à droite */
+    margin-right: -40px; /* Ajoute une marge à droite */
 }
 
 .search-bar.expanded {
-    width: 400px; /* Largeur agrandie */
+    width: 120%; /* Largeur fixe pour mobile */
 }
 
 .search-bar input {
@@ -254,15 +257,16 @@
     }
 
     .search-bar {
-        width: 91%; /* Augmente la largeur pour mobile */
+        width: 109%; /* Augmente la largeur pour mobile */
         max-width: none; /* Désactive la largeur maximale */
+        min-width: 90%;
 
         margin-left: auto; /* Aligne la barre de recherche à droite */
-        margin-right: -40px; /* Ajoute une marge à droite */
+        margin-right: -60px; /* Ajoute une marge à droite */
     }
 
     .search-bar.expanded {
-        width: 100%; /* Largeur fixe pour mobile */
+        width: 200%; /* Largeur fixe pour mobile */
     }
 }
 
