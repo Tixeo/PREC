@@ -6,6 +6,7 @@ import BottomNavigation from './components/BottomNavigation';
 import { auth, db } from './firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import { applyTheme, getThemeForDate } from './styles/ThemeManager';
 
 const Header = lazy(() => import('./components/Header'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -59,31 +60,47 @@ function AppContent() {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        applyTheme();
+        
+        // Met à jour le thème toutes les 24 heures
+        const interval = setInterval(() => {
+            applyTheme();
+        }, 24 * 60 * 60 * 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
     const openLoginModal = () => setLoginModalIsOpen(true);
     const closeLoginModal = () => setLoginModalIsOpen(false);
 
     const getPageTitle = () => {
-        switch(location.pathname) {
-            case '/':
-                return 'Accueil';
-            case '/search':
-                return 'Recherche';
-            case '/ma-liste':
-                return 'Ma Liste de Souhaits';
-            case '/settings':
-                return 'Paramètres';
-            case '/admin':
-                return 'Panneau d\'Administration';
-            case '/terms-of-service':
-                return 'Conditions d\'Utilisation';
-            default:
-                if (location.pathname.startsWith('/products/')) {
-                    return 'Détails du Produit';
-                }
-                return 'Page Non Trouvée | 404';
-        }
+        const theme = getThemeForDate();
+        const baseTitle = (() => {
+            switch(location.pathname) {
+                case '/':
+                    return 'Accueil';
+                case '/search':
+                    return 'Recherche';
+                case '/ma-liste':
+                    return 'Ma Liste de Souhaits';
+                case '/settings':
+                    return 'Paramètres';
+                case '/admin':
+                    return 'Panneau d\'Administration';
+                case '/terms-of-service':
+                    return 'Conditions d\'Utilisation';
+                default:
+                    if (location.pathname.startsWith('/products/')) {
+                        return 'Détails du Produit';
+                    }
+                    return 'Page Non Trouvée | 404';
+            }
+        })();
+
+        return baseTitle + theme.pageTitle;
     };
 
     return (

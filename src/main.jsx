@@ -6,6 +6,7 @@ import './styles/style.css';
 import "./styles/product.css";
 import "./styles/wishlist.css";
 import "./styles/register.css";
+
 import { AuthProvider } from './contexts/authContext';
 
 const root = createRoot(document.getElementById('root'));
