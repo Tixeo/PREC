@@ -138,13 +138,12 @@
 }
 
 .loyalty-button {
-    color: #cccccc;
+    color: #cccccc !important;
     cursor: not-allowed;
 }
 
 .loyalty-button:hover {
-    color: #cccccc;
-    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+    color: #cccccc !important;
 }
 
 /* Ajout d'une marge en dessous du header */

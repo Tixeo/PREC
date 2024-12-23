@@ -1,15 +1,37 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background: 
-        linear-gradient(45deg, transparent 25%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.05) 50%, transparent 50%),
-        linear-gradient(-45deg, transparent 25%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.05) 50%, transparent 50%),
-        radial-gradient(circle, transparent 25%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.05) 50%, transparent 50%),
-        beige;
-    background-size: 30px 30px, 30px 30px, 50px 50px;
+:root {
+  --primary-color: beige;
+  --secondary-color: #ffffff;
+  --text-color: #333333;
+  --accent-color: #000000;
+  --background: beige;
+  --title-first-part: #333333;
+  --title-second-part: #333333;
+  --search-icon: '🔍';
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  background: var(--background);
+  background-size: 30px 30px, 30px 30px, 50px 50px;
+}
+
+.header {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.nav-button {
+  color: var(--text-color);
+}
+
+.search-bar {
+  background-color: var(--primary-color);
+}
+
+/* Ajoutez d'autres styles utilisant les variables de thème */
 
 a {
     text-decoration: none;
@@ -17,5 +39,5 @@ a {
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
