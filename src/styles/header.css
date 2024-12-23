@@ -254,9 +254,11 @@
     }
 
     .search-bar {
-        width: 100%; /* Largeur fixe pour mobile */
+        width: 91%; /* Augmente la largeur pour mobile */
         max-width: none; /* Désactive la largeur maximale */
-        transition: none; /* Désactive la transition */
+
+        margin-left: auto; /* Aligne la barre de recherche à droite */
+        margin-right: -40px; /* Ajoute une marge à droite */
     }
 
     .search-bar.expanded {
