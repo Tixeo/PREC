@@ -250,6 +250,9 @@
 
     footer {
         margin-bottom: 60px;
+        width: 100%;
+        overflow-x: hidden;
+        position: relative;
     }
 
     .mobile-nav-button {
