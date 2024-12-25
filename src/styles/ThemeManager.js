@@ -68,6 +68,17 @@ const THEMES = {
     titleSecondPart: '#cccccc',
     pageTitle: ' 🐟',
     background: '#f2c464'
+  },
+  saintValentin: {
+    primary: '#f2c464',
+    secondary: '#ffffff',
+    text: '#333333',
+    accent: '#007bff',
+    searchIcon: '❤️',
+    titleFirstPart: '#c41e3a',
+    titleSecondPart: '#c41e3a',
+    pageTitle: ' ❤️',
+    background: '#f2c464'
   }
 };
 
@@ -87,11 +98,17 @@ export const getThemeForDate = () => {
     return THEMES.newYear;
   }
   
-  // Halloween (15-31 octobre)
-  if (month === 9 && day >= 15) {
-    console.log("Thème d'Halloween activé");
-    return THEMES.halloween;
-  }
+// Halloween (15-31 octobre)
+if (month === 1 && day >= 14) {
+  console.log("Thème d'Halloween activé");
+  return THEMES.halloween;
+}
+
+ //Saint valentin 
+ if (month === 1 && day >= 1 && day <= 14) {
+  console.log("Thème de Saint valentin  activé");
+  return THEMES.saintValentin;
+}
 
   // Poisson d'Avril (1er avril)
   if (month === 3 && day === 1) {
