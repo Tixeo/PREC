@@ -39,15 +39,15 @@ const MentionsLegales = () => {
         <h2>Propriété intellectuelle</h2>
         <p>
           Le site ainsi que tout son contenu (textes, images, graphismes, logo, icônes, etc.) sont protégés par les lois en vigueur en matière de propriété intellectuelle.
-          Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site est interdite sans l’autorisation écrite préalable de Poit Rayure et Caro.
+          Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site est interdite sans l’autorisation écrite préalable de Pois Rayures et Caro.
         </p>
       </section>
 
       <section>
         <h2>Limitation de responsabilité</h2>
         <p>
-          Poit Rayure et Caro s’efforce de fournir sur le site des informations aussi précises que possible.
-          Toutefois, Poit Rayure et Caro ne pourra être tenu responsable des omissions, des inexactitudes et des carences dans la mise à jour de celles-ci,
+          Pois Rayures et Caro s’efforce de fournir sur le site des informations aussi précises que possible.
+          Toutefois, Pois Rayures et Caro ne pourra être tenu responsable des omissions, des inexactitudes et des carences dans la mise à jour de celles-ci,
           qu’elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.
         </p>
       </section>
