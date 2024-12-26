@@ -37,36 +37,30 @@
 }
 
 .search-bar {
+    z-index: 10;
     display: flex;
     align-items: center;
     background-color: #f0f0f0;
     border-radius: 20px;
-    padding: 0.5rem; /* Ajuste le padding */
-    height: 40px; /* Ajuste la hauteur */
-    width: 100%; /* Largeur maximale pour mobile */
-    max-width: none; /* Désactive la largeur maximale */
-    transition: width 0.3s ease; /* Animation de transition */
-
-    margin-left: auto; /* Aligne la barre de recherche à droite */
-    margin-right: -40px; /* Ajoute une marge à droite */
-}
-
-.search-bar.expanded {
-    width: 120%; /* Largeur fixe pour mobile */
+    padding: 0.5rem;
+    height: 40px;
+    width: 100%;
+    max-width: none;
+    transition: all 0.3s ease;
 }
 
 .search-bar input {
-    padding: 0.5rem; /* Ajuste le padding */
+    padding: 0.5rem;
     border: none;
     border-radius: 20px 0 0 20px;
     width: 100%;
     background-color: transparent;
     outline: none;
-    font-size: 1rem; /* Ajuste la taille de la police */
+    font-size: 1rem;
 }
 
 .search-bar button {
-    padding: 0.5rem 0.75rem; /* Ajuste le padding pour remonter la loupe */
+    padding: 0.5rem 0.75rem;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -75,22 +69,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem; /* Ajuste la taille de l'emoji */
-    margin-top: -2px; /* Ajuste la marge pour remonter la loupe */
+    font-size: 1.2rem;
+    margin-top: -2px;
 }
 
 .header-right {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Ajuste l'espacement entre les boutons */
-    margin-left: 1rem; /* Déplace les boutons plus vers la gauche */
-    margin-right: 6rem; /* Ajoute une marge à droite pour éviter que les boutons ne touchent le bord */
+    gap: 1rem;
+    margin-left: 1rem;
+    margin-right: 3rem;
 }
 
 .nav-buttons {
     display: flex;
     gap: 1rem;
-    align-items: center; /* Aligne les boutons verticalement */
+    align-items: center;
 }
 
 .nav-button {
@@ -102,15 +96,15 @@
     cursor: pointer;
     position: relative;
     transition: color 0.3s;
-    text-decoration: none; /* Supprime le soulignement par défaut des liens */
-    height: 40px; /* Hauteur uniforme pour les boutons */
+    text-decoration: none;
+    height: 40px;
     display: flex;
-    align-items: center; /* Aligne le contenu verticalement */
+    align-items: center;
 }
 
 .nav-button:hover {
     color: #000;
-    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+    background: none;
 }
 
 .nav-button::after {
@@ -119,7 +113,7 @@
     width: 100%;
     transform: scaleX(0);
     height: 2px;
-    bottom: 12px; /* Ajuste la position de la barre */
+    bottom: 12px;
     left: 0;
     background-color: #000;
     transform-origin: bottom right;
@@ -137,7 +131,7 @@
 
 .admin-button:hover {
     color: #ff4500;
-    background: none; /* Assurez-vous qu'il n'y a pas de fond au survol */
+    background: none;
 }
 
 .loyalty-button {
@@ -149,13 +143,37 @@
     color: #cccccc !important;
 }
 
-/* Ajout d'une marge en dessous du header */
 .header + * {
-    margin-top: 50px; /* 50px pour le header + 10px de marge supplémentaire */
+    margin-top: 50px;
 }
 
-/* Mobile --------------------------------------------------------------------------------- */
+/* Styles desktop (écrans > 768px) */
+@media (min-width: 769px) {
+    .nav-buttons {
+        display: flex;
+    }
+    
+    .bottom-navigation {
+        display: none;
+    }
+    
+    nav {
+        display: none;
+    }
 
+    .search-bar {
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    .search-bar.expanded {
+        width: calc(100% - 500px);
+        margin-left: 250px;
+        margin-right: 250px;
+    }
+}
+
+/* Styles Mobile */
 @media (max-width: 768px) {
     .site-title h1 {
         display: none;
@@ -257,33 +275,24 @@
     }
 
     .search-bar {
-        width: 109%; /* Augmente la largeur pour mobile */
-        max-width: none; /* Désactive la largeur maximale */
+        width: 90%;
+        max-width: none;
         min-width: 90%;
-
-        margin-left: auto; /* Aligne la barre de recherche à droite */
-        margin-right: -60px; /* Ajoute une marge à droite */
+        margin-left: auto;
+        margin-right: -60px;
     }
 
     .search-bar.expanded {
-        width: 200%; /* Largeur fixe pour mobile */
+        width: 200%;
     }
-}
 
-@media (min-width: 769px) {
-    .nav-buttons {
+    .header-right {
         display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 1rem;
+        margin-right: 5rem;
     }
-    .bottom-navigation {
-        display: none;
-    }
-    nav {
-        display: none;
-    }
-}
-
-main {
-    min-height: calc(100vh - 60px);
 }
 
 @media (min-width: 768px) {
@@ -300,10 +309,14 @@ main {
     }
 }
 
+main {
+    min-height: calc(100vh - 60px);
+}
+
 .image-transition {
     transition: transform 0.5s ease;
 }
 
 body {
-    overflow-x: hidden; /* Désactive le défilement horizontal */
+    overflow-x: hidden;
 }
