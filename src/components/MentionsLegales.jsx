@@ -9,7 +9,7 @@ const MentionsLegales = () => {
       <section>
         <h2>Propriétaire du site</h2>
         <p>
-          Nom de la boutique : Poit Rayure et Caro<br />
+          Nom de la boutique : Pois Rayures et Caro<br />
           Adresse : 6 Rue de Verrue, 50550 Saint-Vaast-la-Hougue, France<br />
           Numéro de téléphone : 02 33 20 13 45<br />
           Adresse e-mail : poisrayuresetcaro@orange.fr<br />
