@@ -5,7 +5,7 @@ function Footer() {
     return (
         <footer>
             <div className="footer-logo">
-                <img src={sousLogo} alt="Logo Pois Rayures et Caro" />
+                <img src={sousLogo} alt="Pois Rayures et Caro" />
             </div>
 
             <div className="footer-address">
