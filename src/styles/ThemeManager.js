@@ -99,13 +99,13 @@ export const getThemeForDate = () => {
   }
   
 // Halloween (15-31 octobre)
-if (month === 1 && day >= 14) {
+if (month === 9 && day >= 15 && day <= 31) {
   console.log("Thème d'Halloween activé");
   return THEMES.halloween;
 }
 
  //Saint valentin 
- if (month === 1 && day >= 1 && day <= 14) {
+ if (month === 1 && day >= 1 && day <= 16) {
   console.log("Thème de Saint valentin  activé");
   return THEMES.saintValentin;
 }
